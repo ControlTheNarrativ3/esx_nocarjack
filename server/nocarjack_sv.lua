@@ -1,32 +1,37 @@
 ESX = exports["es_extended"]:getSharedObject()
-
 local vehicles = {}
 
 function getVehData(plate, callback)
-    local query = [[
-        SELECT 
-            ov.plate AS plate, 
-            CONCAT(u.firstname, ' ', u.lastname) AS ownerName
-        FROM 
-            `owned_vehicles` ov
-        LEFT JOIN 
-            `users` u ON ov.owner = u.identifier
-        WHERE 
-            ov.plate = @plate
-    ]]
-    
-    MySQL.Async.fetchAll(query, {['@plate'] = plate},
+    MySQL.Async.fetchAll("SELECT * FROM `owned_vehicles`", {},
     function(result)
-        local info = {}
-        if result and result[1] then
-            info.plate = result[1].plate
-            info.owner = result[1].ownerName
-        else
-            info.plate = plate
+        local foundIdentifier = nil
+        for i=1, #result, 1 do
+            local vehicleData = json.decode(result[i].vehicle)
+            if vehicleData.plate == plate then
+                foundIdentifier = result[i].owner
+                break
+            end
         end
-        callback(info)
+        if foundIdentifier ~= nil then
+            MySQL.Async.fetchAll("SELECT * FROM `users` WHERE `identifier` = @identifier", {['@identifier'] = foundIdentifier},
+            function(result)
+                local ownerName = result[1].firstname .. " " .. result[1].lastname
+
+                local info = {
+                    plate = plate,
+                    owner = ownerName
+                }
+                callback(info)
+            end
+          )
+        else -- if identifier is nil then...
+          local info = {
+            plate = plate
+          }
+          callback(info)
+        end
     end)
-end
+  end
 
 RegisterNetEvent("esx_nocarjack:setVehicleDoorsForEveryone")
 AddEventHandler("esx_nocarjack:setVehicleDoorsForEveryone", function(veh, doors, plate)

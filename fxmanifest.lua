@@ -6,7 +6,7 @@ game        'gta5'
 
 --[[ Resource Information ]]--
 name         'NoCarJack'
-description 'ESX NoCarJack - by 0xNOP and updated bt ControlTheNarrativ3 @ FiveM'
+description 'ESX NoCarJack - by 0xNOP and updated by ControlTheNarrativ3 @ FiveM'
 repository   'https://github.com/ControlTheNarrativ3/esx_nocarjack'
 version '1.0.0'
 

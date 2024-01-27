@@ -1,6 +1,4 @@
-ESX = nil
-
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+ESX = exports["es_extended"]:getSharedObject()
 
 local vehicles = {}
 
@@ -26,15 +24,15 @@ function getVehData(plate, callback)
                 }
                 callback(info)
             end
-          )
+            )
         else -- if identifier is nil then...
-          local info = {
+            local info = {
             plate = plate
-          }
-          callback(info)
+        }
+        callback(info)
         end
     end)
-  end
+end
 
 RegisterNetEvent("esx_nocarjack:setVehicleDoorsForEveryone")
 AddEventHandler("esx_nocarjack:setVehicleDoorsForEveryone", function(veh, doors, plate)

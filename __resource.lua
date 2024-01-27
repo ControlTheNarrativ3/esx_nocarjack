@@ -4,6 +4,8 @@ description 'ESX NoCarJack - by 0xNOP @ FiveM'
 
 version '1.0'
 
+shared_script '@es_extended/imports.lua'
+
 server_scripts {
 	'@mysql-async/lib/MySQL.lua',
 	'server/nocarjack_sv.lua'

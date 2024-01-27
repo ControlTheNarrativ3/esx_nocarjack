@@ -12,8 +12,10 @@ version '1.0.0'
 
 shared_script '@es_extended/imports.lua'
 
+
+
 server_scripts {
-	'@mysql-async/lib/MySQL.lua',
+	'@oxmysql/lib/MySQL.lua',
 	'server/nocarjack_sv.lua'
 }
 
